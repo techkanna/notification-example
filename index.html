@@ -8,10 +8,16 @@
       body {
         font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
       }
+
+      .highlight {
+        background-color: rgba(179, 76, 76, 0.219);
+        padding: 0.5rem;
+      }
     </style>
   </head>
   <body>
     <h1>Notification Example</h1>
+    <p class="highlight">Requires permission to display notifications.</p>
     <ul>
       <li>use javascript to display desktop notification to the user</li>
       <li>
@@ -19,7 +25,11 @@
       </li>
     </ul>
 
+    <button id="show-notify">Display the notification</button>
+
     <script>
+      const btn = document.getElementById('show-notify');
+
       function showNotification() {
         const config = {
           body: "if you click me i will redirect you to techkanna's site!..",
@@ -32,17 +42,17 @@
         };
       }
 
-      if (Notification.permission === 'granted') {
-        showNotification();
-      } else if (Notification.permission !== 'denied') {
+      if (Notification.permission === 'default') {
         Notification.requestPermission()
           .then((permission) => {
             if (permission === 'granted') {
-              showNotification();
+              document.querySelector('.highlight').style.display = 'none';
             }
           })
           .catch((err) => console.log(err));
       }
+
+      btn.addEventListener('click', showNotification);
     </script>
   </body>
 </html>
